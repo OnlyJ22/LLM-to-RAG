@@ -1,5 +1,9 @@
 # LLM to RAG Setup Guide
 
+## Project Description
+
+This project demonstrates how to build a fully local Retrieval-Augmented Generation (RAG) system using Ollama, Llama 3.1, LlamaIndex, and ChromaDB. The setup loads a local document (`company_policy.txt`), converts it into embeddings, stores it in a vector index, and allows the LLM to answer questions using retrieved context from that document. Everything runs locally — no cloud services or API keys required.
+
 ## Step 1 – Download Ollama
 
 Go to: https://ollama.com/download
@@ -74,3 +78,56 @@ pip install llama-index chromadb llama-index-vector-stores-chroma llama-index-em
 | `llama-index-embeddings-ollama` | Connector that lets LlamaIndex use your `nomic-embed-text` embedding model via Ollama |
 | `llama-index-vector-stores-chroma` | Connector between LlamaIndex and ChromaDB |
 | `chromadb` | Vector database that stores your document embeddings |
+
+## Step 1 – Add `rag.py`
+
+Create a file named:
+
+```
+rag.py
+```
+
+Paste the following code into `rag.py`:
+
+```python
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
+from llama_index.llms.ollama import Ollama
+from llama_index.embeddings.ollama import OllamaEmbedding
+
+# Configure local models
+Settings.llm = Ollama(model="llama3.1", request_timeout=120.0)
+Settings.embed_model = OllamaEmbedding(model_name="nomic-embed-text")
+
+# Load your document
+documents = SimpleDirectoryReader(input_files=["company_policy.txt"]).load_data()
+
+# Build the index
+index = VectorStoreIndex.from_documents(documents)
+
+# Create query engine
+query_engine = index.as_query_engine()
+
+# Ask a question
+response = query_engine.query("What is the refund policy for enterprise customers?")
+print(response)
+```
+
+---
+
+## Step 1 – Create `company_policy.txt`
+
+In the same folder as `rag.py`, create a file named:
+
+```
+company_policy.txt
+```
+
+Add the following content:
+
+```txt
+Enterprise customers receive a 60 day refund window.
+Refund requests must be submitted via the enterprise portal.
+Standard customers receive a 30 day refund window.
+All refund requests require a valid order number.
+Contact support@company.com for refund assistance.
+```

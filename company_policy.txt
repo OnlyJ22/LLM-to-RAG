@@ -1,0 +1,5 @@
+Enterprise customers receive a 60 day refund window.
+Refund requests must be submitted via the enterprise portal.
+Standard customers receive a 30 day refund window.
+All refund requests require a valid order number.
+Contact support@company.com for refund assistance.
