@@ -131,3 +131,92 @@ Standard customers receive a 30 day refund window.
 All refund requests require a valid order number.
 Contact support@company.com for refund assistance.
 ```
+
+
+## Step 1 — Install Streamlit
+
+Streamlit is a lightweight Python framework that allows you to build interactive web apps quickly.
+
+Install it by running:
+
+```bash
+pip install streamlit
+```
+
+If `pip` does not work, use:
+
+```bash
+python -m pip install streamlit
+```
+
+Verify installation:
+
+```bash
+streamlit --version
+```
+
+If installed correctly, it will display the installed version number.
+
+---
+
+## Step 1 — Create the Application File
+
+Inside your project folder (`LLM-to-RAG`), create a new file:
+
+```
+app.py
+```
+
+Make sure this file is in the same directory as:
+
+- `rag.py`
+- `company_policy.txt`
+
+---
+
+## Step 1 — Add the Streamlit RAG Code
+
+Paste the following into `app.py`:
+
+```python
+import streamlit as st
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
+from llama_index.llms.ollama import Ollama
+from llama_index.embeddings.ollama import OllamaEmbedding
+
+# Configure local models
+Settings.llm = Ollama(model="llama3.1", request_timeout=120.0)
+Settings.embed_model = OllamaEmbedding(model_name="nomic-embed-text")
+
+# Load document
+documents = SimpleDirectoryReader(
+    input_files=["company_policy.txt"]
+).load_data()
+
+# Build index
+index = VectorStoreIndex.from_documents(documents)
+query_engine = index.as_query_engine()
+
+# Streamlit UI
+st.title("Local RAG Demo")
+
+user_query = st.text_input("Ask a question about the company policy:")
+
+if user_query:
+    response = query_engine.query(user_query)
+    st.write(response.response)
+```
+
+Save the file before continuing.
+
+---
+
+## Step 1 — Run the Web App
+
+Start the Streamlit application with:
+
+```bash
+streamlit run app.py
+```
+
+This will open a local web interface in your browser.
