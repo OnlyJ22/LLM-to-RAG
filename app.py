@@ -7,12 +7,12 @@ from llama_index.embeddings.ollama import OllamaEmbedding
 Settings.llm = Ollama(model="llama3.1", request_timeout=120.0)
 Settings.embed_model = OllamaEmbedding(model_name="nomic-embed-text")
 
-# Load document
-documents = SimpleDirectoryReader(input_files=["company_policy.txt"]).load_data()
+# Load ALL documents from a folder
+documents = SimpleDirectoryReader(input_dir="docs").load_data()
 
 # Build index
 index = VectorStoreIndex.from_documents(documents)
-query_engine = index.as_query_engine()
+query_engine = index.as_query_engine(response_mode="compact", text_qa_template=None)
 
 # Streamlit UI
 st.title("Local RAG Demo")

@@ -1,0 +1,18 @@
+Product Overview
+The enterprise platform supports up to 10000 concurrent users.
+The platform is available on Windows, macOS, and Linux operating systems.
+
+Installation Requirements
+Minimum 8GB RAM required for standard installation.
+32GB RAM recommended for enterprise deployments.
+At least 50GB of free disk space required.
+
+Troubleshooting
+If the application fails to start, restart the service from the admin panel.
+Connection errors are most commonly caused by firewall settings blocking port 8080.
+Contact technical support at techsupport@company.com for unresolved issues.
+
+Licensing
+Standard licenses support up to 25 users.
+Enterprise licenses support unlimited users.
+License keys must be renewed annually before expiration.
