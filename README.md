@@ -220,3 +220,6 @@ streamlit run app.py
 ```
 
 This will open a local web interface in your browser.
+
+
+//Previously, external events could load before internal refiner values were available, so matching-by-title failed and new external values were created. This change ensures internal values exist first, so external refiners can align to existing internal ones when present.
